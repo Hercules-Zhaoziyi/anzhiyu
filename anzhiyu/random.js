@@ -1,0 +1,1 @@
+var posts=["2023/07/06/uncategorized/totime/","2021/06/18/uncategorized/guanyu/","2023/07/11/uncategorized/time-mail/","2021/08/14/reprint/themes/","2021/11/29/reprint/esp8266/","2021/08/14/share/website/","2023/01/18/html/xckjlb/","2023/06/01/uncategorized/study/"];function toRandomPost(){pjax.loadUrl('/'+posts[Math.floor(Math.random() * posts.length)]);};
