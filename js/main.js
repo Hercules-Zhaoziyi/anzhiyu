@@ -1242,25 +1242,19 @@ document.addEventListener("DOMContentLoaded", function () {
   const coverColor = async () => {
     const root = document.querySelector(":root");
     const path = document.getElementById("post-top-bg")?.src;
+
     if (!path) {
       // 非文章情况，直接设置不需要请求了
       root.style.setProperty("--anzhiyu-bar-background", "var(--anzhiyu-meta-theme-color)");
       anzhiyu.initThemeColor();
 
-      // 要改回来默认主色
-      document.documentElement.style.setProperty(
-        "--anzhiyu-main",
-        getComputedStyle(document.documentElement).getPropertyValue("--anzhiyu-theme")
-      );
-      document.documentElement.style.setProperty(
-        "--anzhiyu-theme-op",
-        getComputedStyle(document.documentElement).getPropertyValue("--anzhiyu-main") + "23"
-      );
-      document.documentElement.style.setProperty(
-        "--anzhiyu-theme-op-deep",
-        getComputedStyle(document.documentElement).getPropertyValue("--anzhiyu-main") +"dd"
-      );
-    
+      if (GLOBAL_CONFIG.mainTone.cover_change) {
+        // 如果开启了cover主题色改变 要改回来默认主色
+        document.documentElement.style.setProperty(
+          "--anzhiyu-main",
+          getComputedStyle(document.documentElement).getPropertyValue("--anzhiyu-theme")
+        );
+      }
 
       return;
     }
@@ -1292,17 +1286,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
           if (GLOBAL_CONFIG.mainTone.cover_change) {
             document.documentElement.style.setProperty("--anzhiyu-main", value);
-            document.documentElement.style.setProperty(
-              "--anzhiyu-theme-op",
-              getComputedStyle(document.documentElement).getPropertyValue("--anzhiyu-main") + "23"
-            );
-            document.documentElement.style.setProperty(
-              "--anzhiyu-theme-op-deep",
-              getComputedStyle(document.documentElement).getPropertyValue("--anzhiyu-main") +"dd"
-            );
           }
         } else {
           if (GLOBAL_CONFIG.mainTone.mode == "both") {
+            console.info(response.headers.get("content-type"));
             // both继续请求
             try {
               const response = await fetch(GLOBAL_CONFIG.mainTone.api + path);
@@ -1319,14 +1306,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (GLOBAL_CONFIG.mainTone.cover_change) {
                   document.documentElement.style.setProperty("--anzhiyu-main", value);
-                  document.documentElement.style.setProperty(
-                    "--anzhiyu-theme-op",
-                    getComputedStyle(document.documentElement).getPropertyValue("--anzhiyu-main") + "23"
-                  );
-                  document.documentElement.style.setProperty(
-                    "--anzhiyu-theme-op-deep",
-                    getComputedStyle(document.documentElement).getPropertyValue("--anzhiyu-main") +"dd"
-                  );
                 }
               } else {
                 root.style.setProperty("--anzhiyu-bar-background", fallbackValue);
